@@ -14,6 +14,9 @@ flowchart LR
         DBC["get-db-creds\n(Python)\nRead DB credentials\nfrom Secrets Manager"]
         IAM["iam-list\n(Bash)\nList IAM users,\nroles and policies"]
         SSL["track-ssl\n(Python)\nMonitor SSL cert\nexpiration dates"]
+        EC2["ec2-inventory\n(Bash)\nList EC2 instances\nwith state and IPs"]
+        S3["s3-audit\n(Python)\nAudit S3 buckets\nfor public access"]
+        SG["sg-open-ports\n(Python)\nFind security groups\nopen to internet"]
     end
 
     subgraph AWS
@@ -21,6 +24,8 @@ flowchart LR
         ECS_SVC["ECS"]
         SM_SVC["Secrets Manager"]
         ACM_SVC["ACM / External URLs"]
+        EC2_SVC["EC2"]
+        S3_SVC["S3"]
     end
 
     CR --> IAM_SVC
@@ -30,6 +35,9 @@ flowchart LR
     GS --> SM_SVC
     DBC --> SM_SVC
     SSL --> ACM_SVC
+    EC2 --> EC2_SVC
+    SG --> EC2_SVC
+    S3 --> S3_SVC
 ```
 
 ## Scripts
@@ -43,6 +51,9 @@ flowchart LR
 | `get-db-creds/` | Python | Reads database credentials from Secrets Manager and outputs them for shell use |
 | `iam-list/` | Bash | Lists IAM users, roles, groups, and attached policies |
 | `track-ssl/` | Python | Monitors SSL certificate expiration for a list of domains and raises alerts |
+| `ec2-inventory/` | Bash | Lists EC2 instances with name, state, type, private IP, and AZ |
+| `s3-audit/` | Python | Audits S3 buckets for public access block, versioning, and encryption |
+| `sg-open-ports/` | Python | Finds security groups with ingress rules open to `0.0.0.0/0` or `::/0` |
 
 ## Prerequisites
 
